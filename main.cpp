@@ -1753,6 +1753,13 @@ int main(int argc, char **argv)
     lua_setfield(L, -2, "exit");
     lua_pop(L, 1);		// Pop 'os' table
 
+    lua_newtable(L);
+    for (int i = 0; i < argc; i++) {
+        lua_pushstring(L, argv[i]);
+        lua_rawseti(L, -2, i);
+    }
+    lua_setglobal(L, "arg");
+
     int result = luaL_dofile(L, "Launch.lua");
     if (result != 0) {
         lua_error(L);
